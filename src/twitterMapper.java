@@ -21,8 +21,10 @@ public class twitterMapper extends Mapper<Object, Text, Text, Text> {
           SimpleDateFormat sdf = new SimpleDateFormat("HH");
           sdf.setTimeZone(TimeZone.getTimeZone("GMT-3"));
 		      String dateformatted = sdf.format(date);
-		      hour.set(dateformatted);
-		      context.write(data, hour);
+		     // hour.set(dateformatted);
+		if(dateformatted == "13"){
+      			hour.set(fields[2].toString());
+		context.write(data, hour);
     }
   }
-}
+}}
