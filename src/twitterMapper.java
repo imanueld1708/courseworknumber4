@@ -25,6 +25,9 @@ public class twitterMapper extends Mapper<Object, Text, Text, Text> {
 		if(dateformatted == "13"){
       			hour.set(fields[2].toString());
 		context.write(data, hour);
-    }
+    }else{
+	hour.set("-1");
+	context.write(data, hour);
+}
   }
 }}
