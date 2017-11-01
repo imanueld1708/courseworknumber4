@@ -22,8 +22,8 @@ public class twitterMapper extends Mapper<Object, Text, Text, Text> {
           sdf.setTimeZone(TimeZone.getTimeZone("GMT-3"));
 		      String dateformatted = sdf.format(date);
 		     hour.set(dateformatted);
-		//Text maxHour = new Text("13");
-		if(hour.toString() == "13") {
+		int maxHour = Integer.parseInt(hour.toString());
+		if(maxHour == 13) {
       			hour.set(fields[2].toString());
 		context.write(data, hour);
     }else{
