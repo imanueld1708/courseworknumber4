@@ -8,19 +8,19 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 
 
-public class twitterReducer extends Reducer<Text, Text, Text, Text> {
+public class twitterReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
 
-    private Text result = new Text();
+    private IntWritable result = new IntWritable();
 
-    public void reduce(Text key, Iterable<Text> values, Context context)
+    public void reduce(Text key, Iterable<IntWritable> values, Context context)
 
               throws IOException, InterruptedException {
-       
-	for(Text value:values){
-           result.set(value.toString());
+int sum = 0;
+	for(IntWritable value:values){
+          sum+=value.get();
       }
+      result.set(sum);
        context.write(key,result);
     }
 
 }
-
