@@ -16,12 +16,15 @@ public class twitter {
         Configuration conf = new Configuration();
 
     Job job = new Job(conf);
+    
     job.setJarByClass(twitter.class);
     job.setMapperClass(twitterMapper.class);
     job.setReducerClass(twitterReducer.class);
+
     //job.setCombinerClass(twitterReducer.class);
     job.setMapOutputKeyClass(Text.class);
     job.setMapOutputValueClass(IntWritable.class);
+
     Path outputPath = new Path(output);
     FileInputFormat.setInputPaths(job, StringUtils.join(input, ","));
     FileOutputFormat.setOutputPath(job, outputPath);
