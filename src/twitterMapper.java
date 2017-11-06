@@ -73,4 +73,3 @@ protected void setup(Context context) throws IOException, InterruptedException {
   super.setup(context);
 }
 
-}
