@@ -1,5 +1,5 @@
 import java.io.IOException;
-import java.util.*;
+import java.util.Hashtable;
 import java.text.*;
 import java.time.ZonedDateTime;
 import java.io.BufferedReader;
@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java. net.URI;
 import java.time.format.DateTimeFormatter;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
@@ -17,34 +19,28 @@ import org.apache.hadoop.fs.Path;
 
 
 public class twitterMapper extends Mapper<Object, Text, Text, IntWritable> {
-   
+
   private Hashtable<String, String> athleteInfo;
-
-   private IntWritable counter = new IntWritable(1);
-   private Text nameAthlete = new Text();
-
+  private IntWritable counter = new IntWritable(1);
+  private Text nameAthlete = new Text();
 
   public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
-    String[] fields = value.toString().split(";");
+
     try{
-      if(fields.length >= 4){
+      String[] fields = value.toString().split(";");
+	    if(fields.length >= 4){
         Set<String> keys = athleteInfo.keySet();
-        
-        for(String keyz : keys){
+        for(String keyz:keys){
           if(fields[2].contains(keyz)){
-            nameAthlete.set(keyz);
-            context.write(nameAthlete,counter);
+            String sports = athleteInfo.get(keyz);
+            nameAthlete.set(sports);
+            context.write(nameAthlete, counter);
           }
-
         }
-
       }
     }catch(NumberFormatException nfe){
     }
-  }
-
-
-
+}
 
 
 
@@ -72,7 +68,7 @@ protected void setup(Context context) throws IOException, InterruptedException {
 
       String[] fields = line.split(",");
       // Fields are: 0:id 1:name 2:Nationality 3:sex 4:dob 5:height 6: weight 7: sport 8:gold
-      if (fields.length == 9)
+      if (fields.length >= 9)
         athleteInfo.put(fields[1], fields[7]);
     }
     br.close();

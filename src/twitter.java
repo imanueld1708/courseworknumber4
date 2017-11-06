@@ -18,7 +18,7 @@ public class twitter {
         Configuration conf = new Configuration();
 
     Job job = new Job(conf);
-    
+
     job.setJarByClass(twitter.class);
     job.setMapperClass(twitterMapper.class);
     job.setReducerClass(twitterReducer.class);
@@ -27,10 +27,10 @@ public class twitter {
     job.setMapOutputKeyClass(Text.class);
     job.setMapOutputValueClass(IntWritable.class);
 
-job.setOutputKeyClass(Text.class);
-job.setOutputValueClass(IntWritable.class);    
+    job.setOutputKeyClass(Text.class);
+    job.setOutputValueClass(IntWritable.class);
 
-job.addCacheFile(new Path("/data/medalistsrio.csv").toUri());
+    job.addCacheFile(new Path("/data/medalistsrio.csv").toUri());
 
     Path outputPath = new Path(output);
     FileInputFormat.setInputPaths(job, StringUtils.join(input, ","));

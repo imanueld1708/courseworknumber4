@@ -67,3 +67,5 @@ public class IntIntPair implements WritableComparable<IntIntPair> {
       return second.compareTo(tp.second);
    }
 }
+
+ 
