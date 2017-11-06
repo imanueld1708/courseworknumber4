@@ -7,22 +7,38 @@ import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
-public class twitterMapper extends Mapper<Object, Text, IntIntPair, IntWritable> {
-    private IntWritable counter = new IntWritable(1);
-    private Text data = new Text();
-    private Hashtable<String, String> athleteInfo;
-    private IntIntPair pair = new IntIntPair();
+public class twitterMapper extends Mapper<Object, Text, Text, IntWritable> {
+   
+  private Hashtable<String, String> athleteInfo;
+
+   private IntWritable counter = new IntWritable(1);
+   private Text nameAthlete = new Text();
 
 
-    public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
+  public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
     String[] fields = value.toString().split(";");
-	try{
-    if(fields.length >= 4){
+    try{
+      if(fields.length >= 4){
+        Set<String> keys = athleteInfo.keySet();
+        
+        for(String key : keys){
+          if(fields[2].contains(key)){
+            nameAthlete.set(key);
+            context.write(nameAthlete,counter);
+          }
 
+        }
+
+      }
+    }catch(NumberFormatException nfe){
+    }
+  }
 }
-}catch(NumberFormatException nfe){}
-}
-}
+
+
+
+
+
 
 @Override
 protected void setup(Context context) throws IOException, InterruptedException {

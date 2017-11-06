@@ -25,6 +25,8 @@ public class twitter {
     job.setMapOutputKeyClass(Text.class);
     job.setMapOutputValueClass(IntWritable.class);
 
+    job.addCacheFile(new Path("/data/medalistsrio.csv").toUri());
+
     Path outputPath = new Path(output);
     FileInputFormat.setInputPaths(job, StringUtils.join(input, ","));
     FileOutputFormat.setOutputPath(job, outputPath);
