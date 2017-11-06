@@ -2,10 +2,19 @@ import java.io.IOException;
 import java.util.*;
 import java.text.*;
 import java.time.ZonedDateTime;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java. net.URI;
 import java.time.format.DateTimeFormatter;
+
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
+import org.apache.hadoop.fs.FSDataInputStream;
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.Path;
+
 
 public class twitterMapper extends Mapper<Object, Text, Text, IntWritable> {
    
@@ -21,9 +30,9 @@ public class twitterMapper extends Mapper<Object, Text, Text, IntWritable> {
       if(fields.length >= 4){
         Set<String> keys = athleteInfo.keySet();
         
-        for(String key : keys){
-          if(fields[2].contains(key)){
-            nameAthlete.set(key);
+        for(String keyz : keys){
+          if(fields[2].contains(keyz)){
+            nameAthlete.set(keyz);
             context.write(nameAthlete,counter);
           }
 
@@ -33,7 +42,7 @@ public class twitterMapper extends Mapper<Object, Text, Text, IntWritable> {
     }catch(NumberFormatException nfe){
     }
   }
-}
+
 
 
 
@@ -72,4 +81,4 @@ protected void setup(Context context) throws IOException, InterruptedException {
 
   super.setup(context);
 }
-
+}
